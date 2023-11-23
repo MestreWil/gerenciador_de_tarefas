@@ -65,11 +65,15 @@ class Tarefa:
       
     
     def atualizar_status(self):
+      from datetime import datetime
       if self.status is False:
         self.status = True
-        print(f'Status da Tarefa {self.titulo} alterado para: CONCLUÍDO!')
+        hoje = datetime.now()
+        self.__data_conclusao = f'{hoje.day}{hoje.month}{hoje.year}'
+        print(f'Status da Tarefa {self.titulo} alterado para: CONCLUÍDO! No dia {self.__formatar_data_conclusao()} ')
       else:
         self.__status = False
+        self.__data_conclusao = f'Nao Informado'
         print(f'Status da Tarefa {self.titulo} alterado para: PENDENTE!')
     
     def atualizar_descricao(self, descricao):
