@@ -68,23 +68,21 @@ class Tarefa:
         return f'{dia}/{mes}/{ano}'
       return 'Nao Informado'
     
-    def criar_tarefa(self):
+    def criar(self):
       status = 'Concluido' if self.status is True else 'Pendente'
       return {"Titulo": self.titulo, "Descricao": self.descricao, "Status": status, "Data de Criacao": self._formatar_data_criacao(), "Data de Conclusao": self._formatar_data_conclusao()}
        
-      
-    
     def atualizar_status(self):
       from datetime import datetime
       if self.status is False:
         self.status = True
         hoje = datetime.now()
         self._data_conclusao = f'{hoje.day}{hoje.month}{hoje.year}'
-        print(f'Status da Tarefa {self.titulo} alterado para: CONCLUÍDO! No dia {self._formatar_data_conclusao()} ')
+        print(f'Status {self.titulo} alterado para: CONCLUÍDO! No dia {self._formatar_data_conclusao()} ')
       else:
         self._status = False
         self._data_conclusao = 'Nao Informado'
-        print(f'Status da Tarefa {self.titulo} alterado para: PENDENTE!')
+        print(f'Status {self.titulo} alterado para: PENDENTE!')
     
     def atualizar_descricao(self, descricao):
       self.descricao = descricao
@@ -109,17 +107,20 @@ class Projeto(Tarefa):
     
   def puxar_tarefa(self, tarefa_do_projeto):
     self._tarefas_projeto.append(tarefa_do_projeto)
-    return f'Tarefa alocada ao Projeto {self.titulo}'    
+    return print(f"Tarefa {tarefa_do_projeto['Titulo']} alocada ao Projeto {self.titulo}")    
     
   def mostrar_tarefas_no_projeto(self):
-    pass  
-    
-tarefa = Tarefa('foda-se', 'foda-se', '10092024') 
-print(f'{tarefa.criar_tarefa()}')
-tarefa.atualizar_status()
-print(f'{tarefa.criar_tarefa()}')     
+    return print(f'{self._tarefas_projeto}')
+  
 
-projeto = Projeto('foda-se', 'foda-se') 
-print(f'{projeto.criar_tarefa()}')
+projeto = Projeto('foda-se', 'foda-se')
+print(f'{projeto.criar()}')
+print(f'{projeto.mostrar_tarefas_no_projeto()}')    
+tarefa = Tarefa('Comer gay', 'foda-se', '10092024') 
+print(f'{tarefa.criar()}')
+projeto.puxar_tarefa(tarefa.criar())
+projeto.mostrar_tarefas_no_projeto()
+tarefa.atualizar_status()
+projeto.mostrar_tarefas_no_projeto()     
 projeto.atualizar_status()
-print(f'{projeto.criar_tarefa()}') 
+print(f'{projeto.criar()}') 
