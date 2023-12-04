@@ -68,59 +68,96 @@ class Tarefa:
         return f'{dia}/{mes}/{ano}'
       return 'Nao Informado'
     
-    def criar(self):
+    def __str__(self):
+      return f'Título: {self.titulo} | Descrição: {self.descricao} | Status: {self.informa_status()} | Data de Criação: {self._formatar_data_criacao()} | Data de Conclusão: {self._formatar_data_conclusao()}'
+    
+    def criar_dicionario(self):
       status = 'Concluido' if self.status is True else 'Pendente'
       return {"Titulo": self.titulo, "Descricao": self.descricao, "Status": status, "Data de Criacao": self._formatar_data_criacao(), "Data de Conclusao": self._formatar_data_conclusao()}
        
-    def atualizar_status(self):
+    def atualizar_status_tarefa(self):
       from datetime import datetime
       if self.status is False:
         self.status = True
         hoje = datetime.now()
-        self._data_conclusao = f'{hoje.day}{hoje.month}{hoje.year}'
-        print(f'Status {self.titulo} alterado para: CONCLUÍDO! No dia {self._formatar_data_conclusao()} ')
+        dia = hoje.day if len(f'{hoje.day}') == 2 else f'0{hoje.day}'
+        self._data_conclusao = f'{dia}{hoje.month}{hoje.year}'
+        print(f'Status da TAREFA {self.titulo} alterado para: CONCLUÍDO! No dia {self._formatar_data_conclusao()} ')
       else:
         self._status = False
         self._data_conclusao = 'Nao Informado'
-        print(f'Status {self.titulo} alterado para: PENDENTE!')
+        print(f'Status da TAREFA {self.titulo} alterado para: PENDENTE!')
     
     def atualizar_descricao(self, descricao):
       self.descricao = descricao
-      return print("Descrição alterada!")
+      print("Descrição alterada!")
     
     def atualizar_titulo(self, titulo):
       self.titulo = titulo
-      return print(f'Titulo alterado para: {titulo}')
+      print(f'Titulo alterado para: {titulo}')
     
     def atualizar_data_conclusao(self, data_conclusao):
       self.data_conclusao = data_conclusao
-      return print("Data de Conclusão ATUALIZADA!")
+      print("Data de Conclusão ATUALIZADA!")
     
     def atualizar_data_criacao(self, data_criacao):
       self.data_criacao = data_criacao
-      return print('Data de Criação ATUALIZADA!')
-    
+      print('Data de Criação ATUALIZADA!')
+
 class Projeto(Tarefa):
   def __init__(self, titulo, descricao, data_criacao = '', data_conclusao = ''):
     super().__init__(titulo, descricao, data_criacao, data_conclusao)
     self._tarefas_projeto = []
     
   def puxar_tarefa(self, tarefa_do_projeto):
+    """
+    -> Puxa a tarefa para o Projeto
+    """
     self._tarefas_projeto.append(tarefa_do_projeto)
-    return print(f"Tarefa {tarefa_do_projeto['Titulo']} alocada ao Projeto {self.titulo}")    
+    print(f"Tarefa {tarefa_do_projeto.titulo} alocada ao Projeto {self.titulo}")    
     
   def mostrar_tarefas_no_projeto(self):
-    return print(f'{self._tarefas_projeto}')
+    """
+    -> Printar a lista tarefa_projeto
+    """
+    print('-'*30)
+    print(f'TAREFAS DO PROJETO {self.titulo}')
+    print('-'*30)
+    if len(self._tarefas_projeto) == 0:
+      print('Nenhuma TAREFA ALOCADA NESSE PROJETO!')
+    else:
+      num = 0
+      for tarefas_alocadas in self._tarefas_projeto:
+        num += 1
+        print(f'{num} -> {str(tarefas_alocadas)}')
+        
+  
+  def atualizar_status_projeto(self):
+      from datetime import datetime
+      if self.status is False:
+        self.status = True
+        hoje = datetime.now()
+        dia = hoje.day if len(f'{hoje.day}') == 2 else f'0{hoje.day}'
+        self._data_conclusao = f'{dia}{hoje.month}{hoje.year}'
+        print(f'Status do PROJETO {self.titulo} alterado para: CONCLUÍDO! No dia {self._formatar_data_conclusao()} ')
+      else:
+        self._status = False
+        self._data_conclusao = 'Nao Informado'
+        print(f'Status do PROJETO {self.titulo} alterado para: PENDENTE!')
+        
+        
   
 
 projeto = Projeto('foda-se', 'foda-se')
-print(f'{projeto.criar()}')
-print(f'{projeto.mostrar_tarefas_no_projeto()}')    
-tarefa = Tarefa('Comer gay', 'foda-se', '10092024') 
-print(f'{tarefa.criar()}')
-projeto.puxar_tarefa(tarefa.criar())
+print(str(projeto))
+projeto.mostrar_tarefas_no_projeto()    
+tarefa = Tarefa('Comer gay', 'foda-se', '10092024')
+tarefa2 =  Tarefa('F1', 'Fumar uma erva', '23042025')
+projeto.puxar_tarefa(tarefa)
+projeto.puxar_tarefa(tarefa2)
 projeto.mostrar_tarefas_no_projeto()
-tarefa.atualizar_status()
-projeto.mostrar_tarefas_no_projeto()     
-projeto.atualizar_status()
-print(f'{projeto.criar()}') 
+tarefa.atualizar_status_tarefa()
+projeto.mostrar_tarefas_no_projeto()
+tarefa2.atualizar_status_tarefa()     
+projeto.atualizar_status_projeto()
+print(str(projeto)) 

@@ -20,7 +20,7 @@ def entrada():
   descricao = str(input('Descreva sua Tarefa: '))
   conclusao = input('Data de Conclusão (Opcional): ').strip()
   tarefas = Tarefa(titulo, descricao, conclusao)
-  return tarefas.criar_tarefa()
+  return tarefas
   
   
 def ver_tarefa():
