@@ -1,17 +1,17 @@
 from tarefa import *
 
-lista_tarefas = []
+lista_usurarios = []
 
 menu = """
 =========================================
   Sistema de Gerenciamento de Tarefas
 =========================================
     0- Sair
-    1- Criar Tarefa
-    2- Ver Tarefa
-    3- Alterar Status da Tarefa 
-    4- Alterar Descrição da Tarefa
-    5- Apagar Tarefa
+    1- Criar Usuário
+    2- 
+    3-  
+    4- 
+    5- 
     """
     
     

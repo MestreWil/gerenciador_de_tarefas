@@ -52,6 +52,10 @@ class Usuario:
       return 'GERENTE'
     return 'USUÁRIO'
   
+  def virar_gerente(self):
+    self.gerente = True
+    print(f'O {self.nome} se torno GERENTE')
+  
   def __str__(self):
     return f'Status: {self.status_gerente()} | Nome: {self.nome} | Quantidade de tarefa: {len(self.tarefas)} | Quantidade de Projetos: {len(self.projetos)}'
   
@@ -78,6 +82,14 @@ class Usuario:
       for projetos_alocadas in self.projetos:
         num += 1
         print(f'{num} -> {str(projetos_alocadas)}')
+  
+  def receber_tarefa(self, tarefas):
+    self.tarefas.append(tarefas)
+    print(f"Tarefa {tarefas.titulo} encaminhada para o {self.status_gerente()}: {self.nome}")
+    
+  def receber_projeto(self, projeto):
+    self.projetos.append(projeto)
+    print(f'Projeto')
         
   def tarefa_concluida(self):
     if len(self.tarefas) == 0:
@@ -85,7 +97,10 @@ class Usuario:
     else:
       self.todas_tarefas()
       tarefa_concluida = int(input('\nQual tarefa foi concluída? (Digite o número da tarefa)')) - 1
-      self.tarefas[tarefa_concluida].atualizar_status_tarefa()
+      if tarefa_concluida < len(self.tarefas):
+        self.tarefas[tarefa_concluida].atualizar_status_tarefa()
+      else:
+        print('Não existe a essa tarefa!')
           
              
   def criar_tarefas(self):
@@ -96,6 +111,25 @@ class Usuario:
       objeto_tarefa = Tarefa(titulo, descricao, conclusao)
       print(f'Tarefa {titulo} criada com SUCESSO!')
       return objeto_tarefa  
-    print('Seu Status é de USUÁRIO. Por tanto, não tem autorização para cria tarefas')
+    print('Seu Status é de USUÁRIO. Por tanto, não tem autorização para criar TAREFAS')
+    
+  def criar_projetos(self):
+    if self.gerente is True:
+      titulo = str(input('Digite o Título da Tarefa: '))
+      descricao = str(input('Descreva sua Tarefa: '))
+      conclusao = input('Data de Conclusão (Opcional): ').strip()
+      objeto_projeto = Projeto(titulo, descricao, conclusao)
+      print(f'Projeto {titulo} criada com SUCESSO!')
+      return objeto_projeto
+    print('Seu Status é de USUÁRIO. Por tanto, não tem autorização para criar PROJETOS')
       
-usuario = Usuario('Will', 'will@gmail.com')   
+usuario = Usuario('Will', 'will@gmail.com')
+print(str(usuario))
+tarefa_teste = Tarefa('Foda-se', 'foda-se', '10092024')
+print(str(tarefa_teste)) 
+usuario.receber_tarefa(tarefa_teste)
+usuario.todas_tarefas()
+usuario.tarefa_concluida()
+usuario.todas_tarefas()
+usuario.virar_gerente()
+print(str(usuario)) 
