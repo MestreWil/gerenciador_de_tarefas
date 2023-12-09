@@ -109,12 +109,12 @@ class Projeto(Tarefa):
     super().__init__(titulo, descricao, data_criacao, data_conclusao)
     self._tarefas_projeto = []
     
-  def puxar_tarefa(self, tarefa_do_projeto):
+  def receber_tarefa(self, tarefa_do_projeto):
     """
     -> Puxa a tarefa para o Projeto
     """
-    self._tarefas_projeto.append(tarefa_do_projeto)
-    print(f"Tarefa {tarefa_do_projeto.titulo} alocada ao Projeto {self.titulo}")    
+    print(f"Tarefa {tarefa_do_projeto.titulo} alocada ao Projeto {self.titulo}")
+    return self._tarefas_projeto.append(tarefa_do_projeto)    
     
   def mostrar_tarefas_no_projeto(self):
     """
@@ -131,6 +131,16 @@ class Projeto(Tarefa):
         num += 1
         print(f'{num} -> {str(tarefas_alocadas)}')
         
+  def concluir_tarefa(self):
+    if len(self._tarefas_projeto) == 0:
+      print(f'Nenhuma TAREFA no Projeto {self.titulo} no momento!')
+    else:
+      self.mostrar_tarefas_no_projeto()
+      tarefa_concluida = int(input('\nQual tarefa foi concluída? (Digite o número da tarefa)')) - 1
+      if tarefa_concluida < len(self._tarefas_projeto):
+        self._tarefas_projeto[tarefa_concluida].atualizar_status_tarefa()
+      else:
+        print('Não existe a essa tarefa!')
   
   def atualizar_status_projeto(self):
       from datetime import datetime
@@ -144,6 +154,8 @@ class Projeto(Tarefa):
         self._status = False
         self._data_conclusao = 'Nao Informado'
         print(f'Status do PROJETO {self.titulo} alterado para: PENDENTE!')
+        
+        
         
         
   
