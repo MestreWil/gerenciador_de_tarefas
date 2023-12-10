@@ -5,6 +5,7 @@ class Usuario:
     self._email = email
     self._tarefas = []
   
+  #Definições de Propriedade (getters)
   @property
   def nome(self):
     return self._nome
@@ -17,7 +18,7 @@ class Usuario:
   def tarefas(self):
     return self._tarefas
 
-  
+  #Setters
   @nome.setter
   def nome(self, nome):
     self._nome = nome
@@ -31,9 +32,21 @@ class Usuario:
     self._tarefas.append(tarefas)
   
   def __str__(self):
+    """
+    -> Mostra do Objeto em formato string
+    """
     return f'Nome: {self.nome} | E-Mail: {self.email} | Quantidade de tarefa: {len(self.tarefas)}'
   
+  def criar_dicionario(self):
+    """
+    -> Cria um dicionário com as informações do usuário
+    """
+    return { "Nome": self._nome, "Email": self._email }
+  
   def todas_tarefas(self):
+    """
+    -> Mostra todas as tarefas do Usuário
+    """
     print('-'*30)
     print(f'TAREFAS DO {self.nome}')
     print('-'*30)
@@ -46,10 +59,16 @@ class Usuario:
         print(f'{num} -> {str(tarefas_alocadas)}')
   
   def receber_tarefa(self, tarefas):
+    """
+    -> Envia a tarefa para a lista de tarefas do Usuário 
+    """
     self.tarefas.append(tarefas)
     print(f"Tarefa {tarefas.titulo} encaminhada para o {self.nome}")
         
   def tarefa_concluida(self):
+    """
+    -> Marca uma tarefa como concluida
+    """
     if len(self.tarefas) == 0:
       print(f'Nenhuma TAREFA para {self.nome} no momento!')
     else:
@@ -59,15 +78,3 @@ class Usuario:
         self.tarefas[tarefa_concluida].atualizar_status_tarefa()
       else:
         print('Não existe a essa tarefa!')
-          
-    
-      
-# usuario = Usuario('Will', 'will@gmail.com')
-# print(str(usuario))
-# tarefa_teste = Tarefa('Foda-se', 'foda-se', '10092024')
-# print(str(tarefa_teste)) 
-# usuario.receber_tarefa(tarefa_teste)
-# usuario.todas_tarefas()
-# usuario.tarefa_concluida()
-# usuario.todas_tarefas()
-# print(str(usuario)) 

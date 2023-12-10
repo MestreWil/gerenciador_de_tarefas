@@ -6,7 +6,8 @@ class Tarefa:
         self._status = False
         self._data_criacao = data_criacao
         self._data_conclusao =  data_conclusao
-        
+   
+   #Definições de Propriedade (getters)     
     @property
     def titulo(self):
       return self._titulo.title()
@@ -27,6 +28,7 @@ class Tarefa:
     def data_criacao(self):
       return self._data_criacao
     
+    #Setters
     @titulo.setter
     def titulo(self, titulo):
       self._titulo = titulo
@@ -53,6 +55,9 @@ class Tarefa:
       return 'Pendente'
     
     def _formatar_data_conclusao(self):
+      """
+      -> Formata a data de conclusão
+      """
       if self._data_conclusao != '':
         dia = self._data_conclusao[0:2]
         mes = self._data_conclusao[2:4]
@@ -61,6 +66,9 @@ class Tarefa:
       return 'Nao Informado'
 
     def _formatar_data_criacao(self):
+      """
+      -> Formata a data de criação
+      """
       if self._data_criacao != '':
         dia = self._data_criacao[0:2]
         mes = self._data_criacao[2:4]
@@ -69,13 +77,22 @@ class Tarefa:
       return 'Nao Informado'
     
     def __str__(self):
+      """
+      -> Mostra do Objeto em formato string
+       """
       return f'Título: {self.titulo} | Descrição: {self.descricao} | Status: {self.informa_status()} | Data de Criação: {self._formatar_data_criacao()} | Data de Conclusão: {self._formatar_data_conclusao()}'
     
     def criar_dicionario(self):
+      """
+      -> Cria um dicionário com as informações da Tarefa
+      """
       status = 'Concluido' if self.status is True else 'Pendente'
       return {"Titulo": self.titulo, "Descricao": self.descricao, "Status": status, "Data de Criacao": self._formatar_data_criacao(), "Data de Conclusao": self._formatar_data_conclusao()}
        
     def atualizar_status_tarefa(self):
+      """
+      -> Atualiza o status da tarefa e coloca a data de conclusão após ser marcada como concluida
+      """
       from datetime import datetime
       if self.status is False:
         self.status = True
@@ -89,87 +106,55 @@ class Tarefa:
         print(f'Status da TAREFA {self.titulo} alterado para: PENDENTE!')
     
     def atualizar_descricao(self, descricao):
+      """
+      -> Atualiza a descrição da tarefa
+      """
       self.descricao = descricao
       print("Descrição alterada!")
     
     def atualizar_titulo(self, titulo):
+      """
+      -> Atualiza o titulo da tarefa
+      """
       self.titulo = titulo
       print(f'Titulo alterado para: {titulo}')
     
     def atualizar_data_conclusao(self, data_conclusao):
+      """
+      -> Atualiza a data de conclusão da tarefa
+      """
       self.data_conclusao = data_conclusao
       print("Data de Conclusão ATUALIZADA!")
     
     def atualizar_data_criacao(self, data_criacao):
+      """
+      -> Atualiza a data de criação da tarefa
+      """
       self.data_criacao = data_criacao
       print('Data de Criação ATUALIZADA!')
-
-class Projeto(Tarefa):
-  def __init__(self, titulo, descricao, data_criacao = '', data_conclusao = ''):
-    super().__init__(titulo, descricao, data_criacao, data_conclusao)
-    self._tarefas_projeto = []
-    
-  def receber_tarefa(self, tarefa_do_projeto):
-    """
-    -> Puxa a tarefa para o Projeto
-    """
-    print(f"Tarefa {tarefa_do_projeto.titulo} alocada ao Projeto {self.titulo}")
-    return self._tarefas_projeto.append(tarefa_do_projeto)    
-    
-  def mostrar_tarefas_no_projeto(self):
-    """
-    -> Printar a lista tarefa_projeto
-    """
-    print('-'*30)
-    print(f'TAREFAS DO PROJETO {self.titulo}')
-    print('-'*30)
-    if len(self._tarefas_projeto) == 0:
-      print('Nenhuma TAREFA ALOCADA NESSE PROJETO!')
-    else:
-      num = 0
-      for tarefas_alocadas in self._tarefas_projeto:
-        num += 1
-        print(f'{num} -> {str(tarefas_alocadas)}')
-        
-  def concluir_tarefa(self):
-    if len(self._tarefas_projeto) == 0:
-      print(f'Nenhuma TAREFA no Projeto {self.titulo} no momento!')
-    else:
-      self.mostrar_tarefas_no_projeto()
-      tarefa_concluida = int(input('\nQual tarefa foi concluída? (Digite o número da tarefa)')) - 1
-      if tarefa_concluida < len(self._tarefas_projeto):
-        self._tarefas_projeto[tarefa_concluida].atualizar_status_tarefa()
+      
+    def carrega_data_criacao(self, data_criacao):
+      '''
+      -> Faz o carregamento da data de criacao do database.json
+      '''
+      if data_criacao == 'Nao Informado':
+        self._data_criacao = ''
       else:
-        print('Não existe a essa tarefa!')
-  
-  def atualizar_status_projeto(self):
-      from datetime import datetime
-      if self.status is False:
-        self.status = True
-        hoje = datetime.now()
-        dia = hoje.day if len(f'{hoje.day}') == 2 else f'0{hoje.day}'
-        self._data_conclusao = f'{dia}{hoje.month}{hoje.year}'
-        print(f'Status do PROJETO {self.titulo} alterado para: CONCLUÍDO! No dia {self._formatar_data_conclusao()} ')
+        data = data_criacao.split('/')
+        self._data_criacao = data[0] + data[1] + data[2]
+        
+    def carrega_status(self, status):
+      '''
+      -> Faz o carregamento do status de criacao do database.json
+      '''
+      self._status = status == 'Concluido'
+      
+    def carrega_data_conclusao(self, data_conclusao):
+      '''
+      -> Faz o carregamento da data de conclusao do database.json
+      '''
+      if data_conclusao == 'Nao Informado':
+        self._data_conclusao = ''
       else:
-        self._status = False
-        self._data_conclusao = 'Nao Informado'
-        print(f'Status do PROJETO {self.titulo} alterado para: PENDENTE!')
-        
-        
-        
-        
-  
-
-# projeto = Projeto('foda-se', 'foda-se')
-# print(str(projeto))
-# projeto.mostrar_tarefas_no_projeto()    
-# tarefa = Tarefa('Jogar um CS', 'foda-se', '10092024')
-# tarefa2 =  Tarefa('F1', 'Fumar uma erva', '23042025')
-# projeto.puxar_tarefa(tarefa)
-# projeto.puxar_tarefa(tarefa2)
-# projeto.mostrar_tarefas_no_projeto()
-# tarefa.atualizar_status_tarefa()
-# projeto.mostrar_tarefas_no_projeto()
-# tarefa2.atualizar_status_tarefa()     
-# projeto.atualizar_status_projeto()
-# print(str(projeto)) 
+       data = data_conclusao.split('/')
+       self._data_conclusao = data[0] + data[1] + data[2]
