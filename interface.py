@@ -6,6 +6,8 @@ import os
 
 lista_usuarios = []
 lista_projetos = []
+# Arquivo que inicia o gerenciador de tarefas, OBS: Crie um usuario ou um projeto antes de criar uma tarefa, 
+# pois caso não encaminhe essa tarefa a um usuario ou um projeto essa tarefa será perdida :)
 
 menu = """
 =========================================
