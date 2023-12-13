@@ -78,3 +78,7 @@ class Usuario:
         self.tarefas[tarefa_concluida].atualizar_status_tarefa()
       else:
         print('Não existe a essa tarefa!')
+
+  def excluir_tarefa(self, num):
+    print(f'Tarefa {self.tarefas[num].titulo} excluida')
+    return self.tarefas.pop(num)

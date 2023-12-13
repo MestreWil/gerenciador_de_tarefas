@@ -6,6 +6,7 @@ import os
 
 lista_usuarios = []
 lista_projetos = []
+# Aluno: William Tavares de Moura
 # Arquivo que inicia o gerenciador de tarefas, OBS: Crie um usuario ou um projeto antes de criar uma tarefa, 
 # pois caso não encaminhe essa tarefa a um usuario ou um projeto essa tarefa será perdida :)
 
@@ -23,6 +24,8 @@ menu = """
     7- Marca uma Tarefa como concluída (Projetos)
     8- Mostrar as Tarefas dos Usuários
     9- Mostrar as Tarefas dos Projetos
+    10- Excluir Tarefa de em Usuário
+    11- Excluir Projeto de um Projeto
     """
 def salva_json():
   """
@@ -45,15 +48,19 @@ def salva_json():
   data['usuarios'] = usuarios 
   
   projetos = []
+  
   for projeto in lista_projetos:
+    
     projeto_json = projeto.criar_dicionario()
-
+    
     tarefas = []
-    for tarefa in usuario.tarefas:
+    
+    for tarefa in projeto.tarefas_projeto:
+      
       tarefas.append(tarefa.criar_dicionario())
-
+    
     projeto_json['Tarefas'] = tarefas
-
+    
     projetos.append(projeto_json)
 
   data['projetos'] = projetos
@@ -101,7 +108,7 @@ def carrega_json():
         tarefa.carrega_data_criacao(tarefa_json['Data de Criacao'])
         tarefa.carrega_data_conclusao(tarefa_json['Data de Conclusao'])
 
-        projeto._tarefas_projeto.append(tarefa)
+        projeto.tarefas_projeto.append(tarefa)
 
       lista_projetos.append(projeto)    
     
@@ -213,6 +220,21 @@ def tarefas_dos_projetos():
   listar_projetos()
   num =  int(input('\nDigite o número do PROJETO correspondente: ')) - 1
   lista_projetos[num].mostrar_tarefas_no_projeto()
+  
+def excluir_tarefa_usuario():
+  listar_usuarios()
+  num = int(input('\nDigite o número do Usuario correspondente: ')) - 1
+  lista_usuarios[num].todas_tarefas()
+  num1 = int(input('\nDigite o número da Tarefa correspondente: ')) - 1
+  lista_usuarios[num].excluir_tarefa(num1)
+ 
+def excluir_tarefa_projeto():
+  listar_projetos()
+  num = int(input('\nDigite o número do Projeto correspondente: ')) - 1
+  lista_projetos[num].mostrar_tarefas_no_projeto()
+  num1 = int(input('\nDigite o número da Tarefa correspondente: ')) - 1
+  lista_projetos[num].excluir_tarefa(num1) 
+
 
 def menu_principal():
   """
@@ -220,7 +242,6 @@ def menu_principal():
   """ 
   carrega_json()            
   while True:
-    print("\n"*10)
     escolha = input(menu + "Escolha: ")
     if escolha == "0":
       salva_json()
@@ -242,6 +263,10 @@ def menu_principal():
     elif escolha == "8":
       tarefas_dos_usuarios()
     elif escolha == "9":
-      tarefas_dos_projetos()    
+      tarefas_dos_projetos()
+    elif escolha == "10":
+      excluir_tarefa_usuario()
+    elif escolha == "11":
+      excluir_tarefa_projeto()
 if __name__ == "__main__":
     menu_principal()

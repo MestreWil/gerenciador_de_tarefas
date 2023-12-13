@@ -8,6 +8,14 @@ class Projeto(Tarefa):
     super().__init__(titulo, descricao, data_criacao, data_conclusao)
     self._tarefas_projeto = []
     
+  @property
+  def tarefas_projeto(self):
+    return self._tarefas_projeto
+    
+  @tarefas_projeto.setter
+  def tarefas_projeto(self, tarefa):
+    self._tarefas_projeto.append(tarefa)
+    
   def receber_tarefa(self, tarefa_do_projeto):
     """
     -> Puxa a tarefa para o Projeto
@@ -59,3 +67,7 @@ class Projeto(Tarefa):
       self._status = False
       self._data_conclusao = 'Nao Informado'
       print(f'Status do PROJETO {self.titulo} alterado para: PENDENTE!')
+      
+  def excluir_tarefa(self, num):
+    print(f'Tarefa {self.tarefas_projeto[num].titulo} excluida')
+    return self.tarefas_projeto.pop(num)
